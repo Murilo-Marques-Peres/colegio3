@@ -9,6 +9,7 @@ html, body{
 }
 main{
     background: linear-gradient(purple, black);
+    
     height: 100vh;
 }
 nav{
@@ -68,7 +69,22 @@ div.principal{
     background-color: rgba(250,250,250, 0.3)
 
 }
-button{
+nav button{
+    width: 100%;
+    height: 25px;
+    cursor: pointer;
+    background-color: lightgray;
+}
+
+input[type=text]{
+    height: 20px;
+    width: 250px;
+    font-weight: bold;
+}
+input[type=text]:focus{
+    outline: none;
+}
+input[type=submit]{
     width: 100%;
     height: 25px;
     cursor: pointer;

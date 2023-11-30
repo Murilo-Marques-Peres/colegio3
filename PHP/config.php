@@ -12,3 +12,4 @@ try{
 } catch(Exception $e){
     echo "<h1>erro ao conectar</h1>";
 }
+

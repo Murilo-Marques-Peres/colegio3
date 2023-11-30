@@ -8,4 +8,7 @@ $(function(){
     $("#atualiza").on("click", function(){
         $("div.principal").fadeIn(1500);
     });
+    $("#botaoA").on("click", function(){
+        $("div.principal").fadeIn(1500);
+    });
 })
