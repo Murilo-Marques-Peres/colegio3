@@ -41,6 +41,16 @@ nav input[type=submit]{
     cursor: pointer;
     background-color: lightgray;
 }
+.form1{
+    display: block;
+    margin-top: 14px;
+}
+.form2{
+    display: block;
+    margin-top: 14px;
+}
+
+
 footer{
     display: inline-block;
     width: 100%;
