@@ -24,7 +24,7 @@ if($confirmacao == false){
         <main>
             <div class="container">
                 <div class="principal">
-                    <label for="serie">Escolha a série</label>
+                    <label for="serie">Escolha a série:</label>
                     <select name="serie">
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -36,42 +36,55 @@ if($confirmacao == false){
                         <option value="8">8</option>
                         <option value="9">9</option>
                     </select>
-                    <label for="turma">Escolha a turma</label>
+                    <label for="turma">Escolha a turma:</label>
                     <select name="turma">
                         <option>A</option>
                         <option>B</option>
                     </select>
 
-                    
-                    
                     <form method="POST">
-                        <input type="text" name="nomePesquisado">
-                        <input type="submit" id="botaoA" name="acao" value="Pesquisar Nome"/>
+                        <input type="text" name="nomePesquisado" placeholder="Digite o nome do aluno">
+                        <input type="submit" id="botaoA" name="acao1" value="Pesquisar Nome"/>
                     </form>
 
+                    
+                    <div class="tableP">
                     <?php
-                        if(isset($_POST["acao"])){
-                            $nomePesquisa = "Murilo"."%";
-                            $sql = $pdo->prepare("SELECT * FROM aluno WHERE nome LIKE ?");
+                        if(isset($_POST["acao1"])){
+                            $nomePesquisa = $_POST["nomePesquisado"]."%";
+                            $sql = $pdo->prepare("SELECT aluno.cpf, aluno.nome, turma.serieturma FROM aluno INNER JOIN turma
+                            on aluno.turmaid = turma.id WHERE aluno.nome LIKE ?");
                             $sql->execute(array($nomePesquisa));
-                            $info = $sql->fetchAll();
-                            echo "<select class='caixa'>";
-                            foreach($info as $element){
-                                echo "<option>".$element["nome"]."<option>";
+                            $listaNome = $sql->fetchAll();
+                            echo "<table>
+                            <tr class='table'>
+                            <th>CPF</th>
+                            <th>Nome</th>
+                            <th>Turma</th>
+                            </tr>";
+                            foreach($listaNome as $element){
+                                echo "<td>";
+                                echo $element["cpf"];
+                                echo "</td>";
+                                echo "<td>";
+                                echo $element["nome"];
+                                echo "</td>";
+                                echo "<td>";
+                                echo $element["serieturma"];
+                                echo "</td>";
+                                echo "</tr>";
                             }
-                            echo "</select>";
-                            }
+                            echo "</table>";
+                        }
                             
                     ?>
-
+                    </div> <!--tableP-->
 
                 </div><!--principal-->
             </div><!--container-->
 
             <nav id="meu_nav">
                 <ul id="atividade">
-                    <li><button id="notas">Notas</button></li>   
-                    <li><button id="atualiza">Atualizações</button></li>
                     <li>
                         <form method="POST">
                             <input type="submit" name="acao" value="Fazer Logout"/>
