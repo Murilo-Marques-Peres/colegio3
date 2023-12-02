@@ -7,7 +7,6 @@ $senha = filter_input(INPUT_POST, "senha");
 
 $_SESSION["usuario"] = $usuario;
 $_SESSION["senha"] = $senha;
-$_SESSION["confirmacao"] = $confirmacao;
 
 
 
@@ -25,17 +24,15 @@ foreach($info as $key => $element){
 if($usuario && $senha){
     if($sql->rowCount() > 0 && $tipo == "Aluno"){
         header("Location: pageNotas");
-        $_SESSION["login"] = false;
+        $_SESSION["loginADM"] = false;
+        $_SESSION["logado"] = true;
         exit;
-    }else{
-        header("location: ../index");
     }
     if($sql->rowCount() > 0 && $tipo == "Admin"){
         header("Location: pageAdmin");
-        $_SESSION["login"] = true;
+        $_SESSION["loginADM"] = true;
+        $_SESSION["logado"] = true;
         exit;
-    }else{
-        header("location: ../index");
     }
 }
 

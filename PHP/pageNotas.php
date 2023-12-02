@@ -4,6 +4,12 @@ require "config.php";
 session_start();
 $usuario = $_SESSION["usuario"];
 $senha = $_SESSION["senha"];
+$logado = isset($_SESSION["logado"]);
+
+if(!$logado){
+    header("location: ../index");
+    exit;
+}
 
 
 $sql3 = $pdo->prepare("SELECT * FROM login WHERE usuario = ? AND senha = ?");
@@ -23,7 +29,7 @@ from desempenho INNER JOIN materia
 ON desempenho.idmateria = materia.id
 INNER JOIN aluno
 ON desempenho.cpfaluno = aluno.cpf
-WHERE desempenho.cpfaluno = '$cpf'");
+WHERE desempenho.cpfaluno = '$cpf' && ano = 2023");
 
 if($sql->rowCount() > 0){
     $lista2 = $sql->FetchAll(PDO::FETCH_ASSOC);
@@ -58,11 +64,58 @@ if($sql->rowCount() > 0){
         h1{
             margin-bottom:40px;
         }
+        nav{
+            position: absolute;
+            right: 0;
+            top: 0;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            background-image: url("../images/menu.png");
+            background-size: 100% 100%;
+        }
+        nav ul{
+            display: none;
+            position: absolute;
+            right:0px;
+            top: 0;
+            margin-top:30px;
+            height: 40px;
+            width: 150px;
+            list-style-type: none; 
+            
+        }
+        nav li{
+            background-color: rgb(250,245,245);
+            border-bottom: 1px solid black;
+        }
+        #meu_nav #atividade input[type=submit]{
+            position: absolute;
+            width: 100%;
+            height: 30px;
+            cursor: pointer;
+            background-color: gray;
+        }
     </style>
 </head>
 
 <body>
     <main>
+    <nav id="meu_nav">
+        <ul id="atividade">
+            <li>
+                <form method="POST">
+                    <input type="submit" name="acao" value="Fazer Logout"/>
+                    <?php
+                        if(isset($_POST["acao"])){
+                            session_destroy();
+                            header("location: ../index");
+                        }
+                    ?>
+                </form>    
+            </li>
+        </ul>
+    </nav>
         <div class="box">
             <table>
                 <h1> Boletim </h1>
@@ -83,4 +136,6 @@ if($sql->rowCount() > 0){
             </table>
         </div>
     </main>
+    <script src="../JS/jquery.js"></script>
+    <script src="../JS/function.js"></script>
 </body>

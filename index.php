@@ -1,8 +1,20 @@
 <?php
 require __DIR__ . "../PHP/config.php";
+
+session_start();
+$confirmacao1 = isset($_SESSION["logado"]);
+if(isset($_SESSION["loginADM"])){
+    $confirmacao2 = ($_SESSION["loginADM"]);
+}
+if($confirmacao1 && $confirmacao2){
+    header("location: PHP/pageAdmin");
+    exit;
+}
+else if($confirmacao1 && !$confirmacao2){
+    header("location: PHP/pageNotas");
+    exit;
+}
 ?>
-
-
 <html>
     <head>
         <link href="CSS/estilo.css" type="text/css" rel="stylesheet">
