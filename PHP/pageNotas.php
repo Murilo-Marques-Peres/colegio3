@@ -105,7 +105,7 @@ if($sql->rowCount() > 0){
         <ul id="atividade">
             <li>
                 <form method="POST">
-                    <input type="submit" name="acao" value="Fazer Logout"/>
+                    <input type="submit" name="acao" value="Fazer Logout" style="background: linear-gradient(gray, white);"/>
                     <?php
                         if(isset($_POST["acao"])){
                             session_destroy();
