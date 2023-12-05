@@ -1,8 +1,9 @@
 <?php
 require "config.php";
-require "confirmacao.php";
 
 session_start();
+$confirmacao = false;
+$confirmacao2 = false;
 
 if(isset($_SESSION["loginADM"])){
     $confirmacao = $_SESSION["loginADM"];
@@ -10,9 +11,8 @@ if(isset($_SESSION["loginADM"])){
 if(isset($_SESSION["logado"])){
     $confirmacao2 = $_SESSION["logado"];
 }
-$logado = isset($_SESSION["logado"]);
 
-if($confirmacao == false){
+if(!$confirmacao){
     header("location: ../index");
 }
 $usuario = $_SESSION["usuario"];
@@ -49,42 +49,39 @@ $senha = $_SESSION["senha"];
             
             <div class="container">
                 <div class="principal">
-                    <div class="visual">
-                        <h1>Visualização</h1>
-                    </div>
-                    <form class="aluno" method="POST">
-                        <label for="serie">Escolha a série:</label>
-                        <select name="serie">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                        </select>
-                        <label for="Ensino">Escolha o Ensino:</label>
-                        <select name="ensino" style="width: 100px;">
-                            <option>Fundamental</option>
-                            <option>Médio</option>
-                        </select>
-                        <label for="turma">Escolha a turma:</label>
-                        <select name="turma">
-                            <option>A</option>
-                            <option>B</option>
-                        </select>
-                        <div class="form1">
-                            <input type="text" name="nomePesquisado" placeholder="Digite o nome do aluno"/>
-                            <input type="submit" id="botaoA" name="acao1" value="Pesquisar Nome"/>
+                    <div class="containerP">
+                        <div class="visual">
+                            <h1>Visualização</h1>
                         </div>
-                    </form>
-                    <form class="form2" method="POST">
-                        <input type="text" name="CPFPesquisado" placeholder="Digite o CPF do aluno aqui"/>
-                        <input type="submit" name="acao2" value="Confirmar CPF"/>
-                    </form>
-
+                        <form class="aluno" method="POST">
+                            <label for="serie">Escolha a série:</label>
+                            <select name="serie">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                            </select>
+                            <label for="Ensino">Escolha o Ensino:</label>
+                            <select name="ensino" style="width: 100px;">
+                                <option>Fundamental</option>
+                                <option>Médio</option>
+                            </select>
+                            <label for="turma">Escolha a turma:</label>
+                            <select name="turma">
+                                <option>A</option>
+                                <option>B</option>
+                            </select>
+                            <div class="form1">
+                                <input type="text" name="nomePesquisado" placeholder="Digite o nome do aluno"/>
+                                <input type="submit" id="botaoA" name="acao1" value="Pesquisar Nome"/>
+                            </div>
+                        </form>
+                    </div> <!--containerP-->
                     
                     <div class="tableP">
                     <?php
@@ -140,80 +137,125 @@ $senha = $_SESSION["senha"];
             </div><!--container-->
             <div class="container2">
                 <div class="principal2">
-                <div class="visual">
-                        <h1>Visualização</h1>
+                    <div class="visual">
+                        <h1>Alteração</h1>
                     </div>
-                    <form class="aluno" method="POST">
-                        <label for="serie">Escolha a série:</label>
-                        <select name="serie">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
+                    <form method="POST">
+                        <input name="cpfSelecionado" class="cpfMudar" type="text" placeholder="Digite o CPF do aluno para Alteração"/>
+                        <label class="elementoMudar" for="materiaDef">Escolha a matéria a definir nota</label>
+                        <select class="mudarSelect" name="materiaDef">
+                            <option value="Português">Português</option>
+                            <option value="Matemática">Matemática</option>
+                            <option value="História">História</option>
+                            <option value="Geografia">Geografia</option>
+                            <option value="Fisica">Fisica</option>
+                            <option value="Química">Química</option>
+                            <option value="Sociologia">Sociologia</option>
+                            <option value="Literatura">Literatura</option>
+                            <option value="Filosofia">Filosofia</option>
                         </select>
-                        <label for="Ensino">Escolha o Ensino:</label>
-                        <select name="ensino" style="width: 100px;">
-                            <option>Fundamental</option>
-                            <option>Médio</option>
-                        </select>
-                        <label for="turma">Escolha a turma:</label>
-                        <select name="turma">
-                            <option>A</option>
-                            <option>B</option>
-                        </select>
-                        <div class="form1">
-                            <input type="text" name="nomePesquisado" placeholder="Digite o nome do aluno"/>
-                            <input type="submit" id="botaoA" name="acao12" value="Pesquisar Nome"/>
-                        </div>
-                    </form>
-                    <form class="form2" method="POST">
-                        <input type="text" name="CPFPesquisado" placeholder="Digite o CPF do aluno aqui"/>
-                        <input type="submit" name="acao2" value="Confirmar CPF"/>
-                    </form>
 
-                    
-                    <div class="tableP">
-                    <?php
-                        
 
-                        if(isset($_POST["acao12"])){
-                            $serieTurma = serieTurma();
-                            $nomePesquisa = $_POST["nomePesquisado"]."%";
-                            $sql = $pdo->prepare("SELECT aluno.cpf, aluno.nome, turma.serieturma FROM aluno INNER JOIN turma
-                            on aluno.turmaid = turma.id WHERE turma.serieturma = ? && aluno.nome LIKE ?");
-                            $sql->execute(array($serieTurma,$nomePesquisa));
-                            $listaNome = $sql->fetchAll();
-                            echo "<table>
-                            <tr class='table'>
-                            <th>CPF</th>
-                            <th>Nome</th>
-                            <th>Turma</th>
-                            </tr>";
-                            foreach($listaNome as $element){
-                                echo "<td>";
-                                echo $element["cpf"];
-                                echo "</td>";
-                                echo "<td>";
-                                echo $element["nome"];
-                                echo "</td>";
-                                echo "<td>";
-                                echo $element["serieturma"];
-                                echo "</td>";
-                                echo "</tr>";
+                        </select>
+                        <label class="elementoMudar" for="notaDef">Escolha a nota a definir:</label>
+                        <select class="selectMudar2" name="notaDef" >
+                            <option value="Nota 1">Nota 1</option>
+                            <option value="Nota 2">Nota 2</option>
+                            <option value="Nota 3">Nota 3</option>
+                        </select>
+                        <label for="campoNota">Defina a nota:</label>
+                        <input type="text" name="campoNota" style="width: 30px; text-align:center;"/>
+                        <input class="submitMudar" type="submit" name="acaoMudarNota" value="Definir nota" style="margin-left:10px"/>
+                    </form>
+                    <?php 
+                        function inserirNota($notaDefinida, $cpfSelecionado,$materiaSelecionada, $indexNota, $pdo){
+                            if($indexNota == "nota1"){
+                                $sql = $pdo->prepare("SELECT desempenho.idmateria, materia.nome, desempenho.cpfaluno FROM desempenho
+                                INNER JOIN materia ON desempenho.idmateria = materia.id WHERE cpfaluno = ? && nome = ?");
+                                $sql->execute(array($cpfSelecionado, $materiaSelecionada));
+                                $listaMateria = $sql->FetchAll(PDO::FETCH_ASSOC);
+                                $notaDefinidaMudada = str_replace(",",".", $notaDefinida);
+                                $notaDefinidaMudadaFinal = floatval($notaDefinidaMudada);
+                                foreach($listaMateria as $elementMateria){
+                                    $indexMateria = $elementMateria["idmateria"];
+                                }
+                                if($sql->rowCount() > 0){
+                                    $updateConfirmation = true;
+                                }else{
+                                    $updateConfirmation = false;
+                                }
+                                if($updateConfirmation){
+                                    $sql = $pdo->prepare("UPDATE desempenho SET nota1 = ? WHERE cpfaluno = ? && ano = ? && idmateria = ?");
+                                    $sql->execute(array($notaDefinidaMudadaFinal, $cpfSelecionado, 2023, $indexMateria));
+                                }
+                                
                             }
-                            echo "</table>";
-                        }
-                            
-                    ?>
-                    </div> <!--tableP-->
+                            if($indexNota == "nota2"){
+                                $sql = $pdo->prepare("SELECT desempenho.idmateria, materia.nome, desempenho.cpfaluno FROM desempenho
+                                INNER JOIN materia ON desempenho.idmateria = materia.id WHERE cpfaluno = ? && nome = ?");
+                                $sql->execute(array($cpfSelecionado, $materiaSelecionada));
+                                $listaMateria = $sql->FetchAll(PDO::FETCH_ASSOC);
+                                $notaDefinidaMudada = str_replace(",",".", $notaDefinida);
+                                $notaDefinidaMudadaFinal = floatval($notaDefinidaMudada);
+                                foreach($listaMateria as $elementMateria){
+                                    $indexMateria = $elementMateria["idmateria"];
+                                }
+                                if($sql->rowCount() > 0){
+                                    $updateConfirmation = true;
+                                }else{
+                                    $updateConfirmation = false;
+                                }
+                                if($updateConfirmation){
+                                    $sql = $pdo->prepare("UPDATE desempenho SET nota2 = ? WHERE cpfaluno = ? && ano = ? && idmateria = ?");
+                                    $sql->execute(array($notaDefinidaMudadaFinal, $cpfSelecionado, 2023, $indexMateria));
+                                }
+                            }
+                            if($indexNota == "nota3"){
+                                $sql = $pdo->prepare("SELECT desempenho.idmateria, materia.nome, desempenho.cpfaluno FROM desempenho
+                                INNER JOIN materia ON desempenho.idmateria = materia.id WHERE cpfaluno = ? && nome = ?");
+                                $sql->execute(array($cpfSelecionado, $materiaSelecionada));
+                                $listaMateria = $sql->FetchAll(PDO::FETCH_ASSOC);
+                                $notaDefinidaMudada = str_replace(",",".", $notaDefinida);
+                                $notaDefinidaMudadaFinal = floatval($notaDefinidaMudada);
+                                foreach($listaMateria as $elementMateria){
+                                    $indexMateria = $elementMateria["idmateria"];
+                                }
+                                if($sql->rowCount() > 0){
+                                    $updateConfirmation = true;
+                                }else{
+                                    $updateConfirmation = false;
+                                }
+                                if($updateConfirmation){
+                                    $sql = $pdo->prepare("UPDATE desempenho SET nota3 = ? WHERE cpfaluno = ? && ano = ? && idmateria = ?");
+                                    $sql->execute(array($notaDefinidaMudadaFinal, $cpfSelecionado, 2023, $indexMateria));
+                                }
+                            }
 
-                </div>
-            </div>
+                        }
+                        
+                        if(isset($_POST["acaoMudarNota"])){
+                            $notaDefinida = $_POST["campoNota"];
+                            $cpfSelecionado = $_POST["cpfSelecionado"];
+                            $materiaSelecionada = $_POST["materiaDef"] ;
+                            $notaSelecionada = $_POST["notaDef"];
+                            $indexNota = "";
+                            if($notaSelecionada == "Nota 1"){
+                                $indexNota = "nota1";
+                            }
+                            if($notaSelecionada == "Nota 2"){
+                                $indexNota = "nota2";
+                            }
+                            if($notaSelecionada == "Nota 3"){
+                                $indexNota = "nota3";
+                            }
+
+                            inserirNota($notaDefinida, $cpfSelecionado,$materiaSelecionada, $indexNota,$pdo);
+                        }
+
+                    ?>
+                    
+                </div><!--principal2-->
+            </div><!--container2-->
             </main>
         <footer>
             <p>Todos os direitos reservados</p>

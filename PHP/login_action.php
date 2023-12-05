@@ -1,6 +1,5 @@
 <?php
 require "config.php";
-require "confirmacao.php";
 session_start();
 $usuario = filter_input(INPUT_POST, "usuario");
 $senha = filter_input(INPUT_POST, "senha");
