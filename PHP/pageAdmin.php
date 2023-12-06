@@ -77,8 +77,10 @@ $senha = $_SESSION["senha"];
                                 <option>B</option>
                             </select>
                             <div class="form1">
-                                <input type="text" name="nomePesquisado" placeholder="Digite o nome do aluno"/>
+                                <input type="text" name="nomePesquisado" placeholder="Digite o nome do aluno" style="margin-right:10px;"/>
                                 <input type="submit" id="botaoA" name="acao1" value="Pesquisar Nome"/>
+                                <input type="text" name="pesquisaCPF" placeholder="Digite o cpf do aluno"/>
+                                <input id="submitNotaMateria" type="submit" name="acaoNotasMateria" value="Pesquisar Notas do aluno"/>
                             </div>
                         </form>
                     </div> <!--containerP-->
@@ -132,6 +134,51 @@ $senha = $_SESSION["senha"];
                             
                     ?>
                     </div> <!--tableP-->
+                    <div class="tableNotas">
+                        <?php
+                            if(isset($_POST["acaoNotasMateria"])){
+                                $cpfPesquisa = $_POST["pesquisaCPF"];
+                                $sql = $pdo->prepare("SELECT desempenho.cpfaluno, aluno.nome, materia.nome as materia, desempenho.nota1, desempenho.nota2, desempenho.nota3 FROM desempenho 
+                                INNER JOIN materia ON desempenho.idmateria = materia.id
+                                INNER JOIN aluno ON desempenho.cpfaluno = aluno.cpf
+                                WHERE cpfaluno = ?");
+                                $sql->execute(array($cpfPesquisa));
+                                $listaNome = $sql->fetchAll();
+                                echo "<table>
+                                <tr class='table'>
+                                <th>CPF</th>
+                                <th>Nome</th>
+                                <th>Materia</th>
+                                <th style='width: 60px;'>Nota 1</th>
+                                <th style='width: 60px;'>Nota 2</th>
+                                <th style='width: 60px;'>Nota 3</th>
+                                </tr>";
+                                foreach($listaNome as $element){
+                                    echo "<td>";
+                                    echo $element["cpfaluno"];
+                                    echo "</td>";
+                                    echo "<td>";
+                                    echo $element["nome"];
+                                    echo "</td>";
+                                    echo "<td>";
+                                    echo $element["materia"];
+                                    echo "</td>";
+                                    echo "<td>";
+                                    echo $element["nota1"];
+                                    echo "</td>";
+                                    echo "<td>";
+                                    echo $element["nota2"];
+                                    echo "</td>";
+                                    echo "<td>";
+                                    echo $element["nota3"];
+                                    echo "</td>";
+                                    echo "</tr>";
+                                }
+                                echo "</table>";
+                            }
+                        ?>
+                    </div><!--tableNotas-->
+
 
                 </div><!--principal-->
             </div><!--container-->
@@ -176,6 +223,12 @@ $senha = $_SESSION["senha"];
                                 $listaMateria = $sql->FetchAll(PDO::FETCH_ASSOC);
                                 $notaDefinidaMudada = str_replace(",",".", $notaDefinida);
                                 $notaDefinidaMudadaFinal = floatval($notaDefinidaMudada);
+                                $sql2 = $pdo->prepare("SELECT cpf FROM aluno WHERE cpf = ?");
+                                $sql2->execute(array($cpfSelecionado));
+                                $listaCPF = $sql2->FetchAll(PDO::FETCH_ASSOC);
+                                foreach($listaCPF as $elementCPF){
+                                    $cpfVerificado = $elementCPF["cpf"];
+                                }
                                 foreach($listaMateria as $elementMateria){
                                     $indexMateria = $elementMateria["idmateria"];
                                 }
@@ -188,6 +241,25 @@ $senha = $_SESSION["senha"];
                                     $sql = $pdo->prepare("UPDATE desempenho SET nota1 = ? WHERE cpfaluno = ? && ano = ? && idmateria = ?");
                                     $sql->execute(array($notaDefinidaMudadaFinal, $cpfSelecionado, 2023, $indexMateria));
                                 }
+                                if(!$updateConfirmation){
+                                    $sql3 = $pdo->prepare("SELECT * FROM materia WHERE nome = ?");
+                                    $sql3->execute(array($materiaSelecionada));
+                                    $listaMateriaPesquisa = $sql3->FetchAll(PDO::FETCH_ASSOC);
+                                    foreach($listaMateriaPesquisa as $element){
+                                        $indexMateria = $element["id"];
+                                    }
+                                    $sql5 = $pdo->prepare("SELECT turmaid FROM aluno WHERE cpf = ?");
+                                    $sql5->execute(array($cpfVerificado));
+                                    $listaIdTurma = $sql5->FetchAll(PDO::FETCH_ASSOC);
+                                    foreach($listaIdTurma as $element){
+                                        $idTurma = $element["turmaid"];
+                                    }
+                                    if(isset($cpfVerificado)){
+                                        $sql4 = $pdo->prepare("INSERT INTO desempenho (cpfaluno, ano, idmateria, nota1, idturma) values (?,?,?,?,?)");
+                                        $sql4->execute(array($cpfVerificado, 2023, $indexMateria, $notaDefinidaMudadaFinal, $idTurma));
+
+                                    }
+                                }
                                 
                             }
                             if($indexNota == "nota2"){
@@ -197,6 +269,12 @@ $senha = $_SESSION["senha"];
                                 $listaMateria = $sql->FetchAll(PDO::FETCH_ASSOC);
                                 $notaDefinidaMudada = str_replace(",",".", $notaDefinida);
                                 $notaDefinidaMudadaFinal = floatval($notaDefinidaMudada);
+                                $sql2 = $pdo->prepare("SELECT cpf FROM aluno WHERE cpf = ?");
+                                $sql2->execute(array($cpfSelecionado));
+                                $listaCPF = $sql2->FetchAll(PDO::FETCH_ASSOC);
+                                foreach($listaCPF as $elementCPF){
+                                    $cpfVerificado = $elementCPF["cpf"];
+                                }
                                 foreach($listaMateria as $elementMateria){
                                     $indexMateria = $elementMateria["idmateria"];
                                 }
@@ -209,6 +287,26 @@ $senha = $_SESSION["senha"];
                                     $sql = $pdo->prepare("UPDATE desempenho SET nota2 = ? WHERE cpfaluno = ? && ano = ? && idmateria = ?");
                                     $sql->execute(array($notaDefinidaMudadaFinal, $cpfSelecionado, 2023, $indexMateria));
                                 }
+                                if(!$updateConfirmation){
+                                    $sql3 = $pdo->prepare("SELECT * FROM materia WHERE nome = ?");
+                                    $sql3->execute(array($materiaSelecionada));
+                                    $listaMateriaPesquisa = $sql3->FetchAll(PDO::FETCH_ASSOC);
+                                    foreach($listaMateriaPesquisa as $element){
+                                        $indexMateria = $element["id"];
+                                    }
+                                    $sql5 = $pdo->prepare("SELECT turmaid FROM aluno WHERE cpf = ?");
+                                    $sql5->execute(array($cpfVerificado));
+                                    $listaIdTurma = $sql5->FetchAll(PDO::FETCH_ASSOC);
+                                    foreach($listaIdTurma as $element){
+                                        $idTurma = $element["turmaid"];
+                                    }
+                                    if(isset($cpfVerificado)){
+                                        $sql4 = $pdo->prepare("INSERT INTO desempenho (cpfaluno, ano, idmateria, nota2, idturma) values (?,?,?,?,?)");
+                                        $sql4->execute(array($cpfVerificado, 2023, $indexMateria, $notaDefinidaMudadaFinal, $idTurma));
+
+                                    }
+                                }
+                                
                             }
                             if($indexNota == "nota3"){
                                 $sql = $pdo->prepare("SELECT desempenho.idmateria, materia.nome, desempenho.cpfaluno FROM desempenho
@@ -217,6 +315,12 @@ $senha = $_SESSION["senha"];
                                 $listaMateria = $sql->FetchAll(PDO::FETCH_ASSOC);
                                 $notaDefinidaMudada = str_replace(",",".", $notaDefinida);
                                 $notaDefinidaMudadaFinal = floatval($notaDefinidaMudada);
+                                $sql2 = $pdo->prepare("SELECT cpf FROM aluno WHERE cpf = ?");
+                                $sql2->execute(array($cpfSelecionado));
+                                $listaCPF = $sql2->FetchAll(PDO::FETCH_ASSOC);
+                                foreach($listaCPF as $elementCPF){
+                                    $cpfVerificado = $elementCPF["cpf"];
+                                }
                                 foreach($listaMateria as $elementMateria){
                                     $indexMateria = $elementMateria["idmateria"];
                                 }
@@ -229,6 +333,26 @@ $senha = $_SESSION["senha"];
                                     $sql = $pdo->prepare("UPDATE desempenho SET nota3 = ? WHERE cpfaluno = ? && ano = ? && idmateria = ?");
                                     $sql->execute(array($notaDefinidaMudadaFinal, $cpfSelecionado, 2023, $indexMateria));
                                 }
+                                if(!$updateConfirmation){
+                                    $sql3 = $pdo->prepare("SELECT * FROM materia WHERE nome = ?");
+                                    $sql3->execute(array($materiaSelecionada));
+                                    $listaMateriaPesquisa = $sql3->FetchAll(PDO::FETCH_ASSOC);
+                                    foreach($listaMateriaPesquisa as $element){
+                                        $indexMateria = $element["id"];
+                                    }
+                                    $sql5 = $pdo->prepare("SELECT turmaid FROM aluno WHERE cpf = ?");
+                                    $sql5->execute(array($cpfVerificado));
+                                    $listaIdTurma = $sql5->FetchAll(PDO::FETCH_ASSOC);
+                                    foreach($listaIdTurma as $element){
+                                        $idTurma = $element["turmaid"];
+                                    }
+                                    if(isset($cpfVerificado)){
+                                        $sql4 = $pdo->prepare("INSERT INTO desempenho (cpfaluno, ano, idmateria, nota3, idturma) values (?,?,?,?,?)");
+                                        $sql4->execute(array($cpfVerificado, 2023, $indexMateria, $notaDefinidaMudadaFinal, $idTurma));
+
+                                    }
+                                }
+                                
                             }
 
                         }
