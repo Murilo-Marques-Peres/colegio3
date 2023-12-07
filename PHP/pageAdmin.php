@@ -14,6 +14,7 @@ if(isset($_SESSION["logado"])){
 
 if(!$confirmacao){
     header("location: ../index");
+    die();
     //Recommended by the teacher to use die()
 }
 $usuario = $_SESSION["usuario"];
