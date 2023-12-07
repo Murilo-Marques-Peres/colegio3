@@ -6,7 +6,9 @@ $confirmacao = false;
 $confirmacao2 = false;
 
 if(isset($_SESSION["loginADM"])){
-    $confirmacao = $_SESSION["loginADM"];
+    if($_SESSION["loginADM"]){
+        $confirmacao = $_SESSION["loginADM"];
+    }
 }
 if(isset($_SESSION["logado"])){
     $confirmacao2 = $_SESSION["logado"];

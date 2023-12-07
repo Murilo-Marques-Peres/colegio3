@@ -3,6 +3,7 @@ require __DIR__ . "../PHP/config.php";
 
 session_start();
 $confirmacao1 = isset($_SESSION["logado"]);
+$confirmacao2 = false;
 if(isset($_SESSION["loginADM"])){
     $confirmacao2 = ($_SESSION["loginADM"]);
 }
