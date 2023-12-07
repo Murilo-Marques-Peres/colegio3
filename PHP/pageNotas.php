@@ -9,6 +9,7 @@ $logado = isset($_SESSION["logado"]);
 if(!$logado){
     header("location: ../index");
     exit;
+    //Recommended by the teacher to use die()
 }
 
 
@@ -66,13 +67,16 @@ if($sql->rowCount() > 0){
         }
         nav{
             position: absolute;
-            right: 0;
+            right: 10;
             top: 0;
             cursor: pointer;
             width: 32px;
             height: 32px;
-            background-image: url("../images/menu.png");
+            background-color: red;
+            background-image: url("../images/ligar.png");
             background-size: 100% 100%;
+            border-radius: 32px;
+            border: 3px solid black;
         }
         nav ul{
             display: none;
@@ -94,8 +98,11 @@ if($sql->rowCount() > 0){
             width: 100%;
             height: 30px;
             cursor: pointer;
-            background-color: gray;
+            background: linear-gradient(red, black);
+            color: gray;
+            font-weight: bold;
         }
+        <script src="https://kit.fontawesome.com/b6a341c846.js" crossorigin="anonymous"></script>
     </style>
 </head>
 
@@ -105,7 +112,7 @@ if($sql->rowCount() > 0){
         <ul id="atividade">
             <li>
                 <form method="POST">
-                    <input type="submit" name="acao" value="Fazer Logout" style="background: linear-gradient(gray, white);"/>
+                    <input type="submit" name="acao" value="Fazer Logout" />
                     <?php
                         if(isset($_POST["acao"])){
                             session_destroy();
@@ -115,6 +122,7 @@ if($sql->rowCount() > 0){
                 </form>    
             </li>
         </ul>
+        <i class="fa-solid fa-circle-xmark"></i>
     </nav>
         <div class="box">
             <table>

@@ -25,13 +25,21 @@ if($usuario && $senha){
         header("Location: pageNotas");
         $_SESSION["loginADM"] = false;
         $_SESSION["logado"] = true;
+        $_SESSION["erroUser"] = false;
         exit;
+        //Recommended by the teacher to use die()
     }
     if($sql->rowCount() > 0 && $tipo == "Admin"){
         header("Location: pageAdmin");
         $_SESSION["loginADM"] = true;
         $_SESSION["logado"] = true;
+        $_SESSION["erroUser"] = false;
         exit;
+        //Recommended by the teacher to use die()
+    }
+    if($sql->rowCount() == 0){
+        header("location: ../index");
+        $_SESSION["erroUser"] = true;
     }
 }
 

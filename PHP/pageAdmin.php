@@ -14,6 +14,7 @@ if(isset($_SESSION["logado"])){
 
 if(!$confirmacao){
     header("location: ../index");
+    //Recommended by the teacher to use die()
 }
 $usuario = $_SESSION["usuario"];
 $senha = $_SESSION["senha"];
@@ -138,6 +139,7 @@ $senha = $_SESSION["senha"];
                         <?php
                             if(isset($_POST["acaoNotasMateria"])){
                                 $cpfPesquisa = $_POST["pesquisaCPF"];
+                                $cpfPesquisa = str_replace(" ", "", $cpfPesquisa);
                                 $sql = $pdo->prepare("SELECT desempenho.cpfaluno, aluno.nome, materia.nome as materia, desempenho.nota1, desempenho.nota2, desempenho.nota3 FROM desempenho 
                                 INNER JOIN materia ON desempenho.idmateria = materia.id
                                 INNER JOIN aluno ON desempenho.cpfaluno = aluno.cpf
@@ -360,6 +362,7 @@ $senha = $_SESSION["senha"];
                         if(isset($_POST["acaoMudarNota"])){
                             $notaDefinida = $_POST["campoNota"];
                             $cpfSelecionado = $_POST["cpfSelecionado"];
+                            $cpfSelecionado = str_replace(" ", "", $cpfSelecionado);
                             $materiaSelecionada = $_POST["materiaDef"] ;
                             $notaSelecionada = $_POST["notaDef"];
                             $indexNota = "";

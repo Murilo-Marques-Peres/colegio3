@@ -14,6 +14,11 @@ else if($confirmacao1 && !$confirmacao2){
     header("location: PHP/pageNotas");
     exit;
 }
+if(isset($_SESSION["erroUser"])){
+    if($_SESSION["erroUser"]){
+        echo "<div class='errorUser'>Usuário existente não encotrado!</div>";
+    }
+}
 ?>
 <html>
     <head>
