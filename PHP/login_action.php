@@ -41,6 +41,8 @@ if($usuario && $senha){
         header("location: ../index");
         $_SESSION["erroUser"] = true;
     }
+}else{
+    header("location: ../index");
 }
 
 
